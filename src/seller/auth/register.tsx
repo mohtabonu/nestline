@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useLanguage } from "./language-context";
+import { Link } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
     const [name, setName] = useState("");
@@ -7,6 +9,7 @@ const RegisterPage: React.FC = () => {
     const [passport, setPassport] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const { translations } = useLanguage()
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,10 +27,10 @@ const RegisterPage: React.FC = () => {
 
     return (
         <>
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Регистрация</h2>
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">{translations.register.title}</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Имя</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">{translations.register.name_label}</label>
                     <input
                         type="text"
                         value={name}
@@ -38,7 +41,7 @@ const RegisterPage: React.FC = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Номер телефона</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">{translations.register.phone_label}</label>
                     <input
                         type="tel"
                         value={phone}
@@ -49,7 +52,7 @@ const RegisterPage: React.FC = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Серия паспорта</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">{translations.register.passport_label}</label>
                     <input
                         type="text"
                         value={passport}
@@ -60,7 +63,7 @@ const RegisterPage: React.FC = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Пароль</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">{translations.register.password_label}</label>
                     <div className="relative">
                         <input
                             type={showPassword ? "text" : "password"}
@@ -82,17 +85,17 @@ const RegisterPage: React.FC = () => {
                     type="submit"
                     className="w-full py-2 bg-gray-800 text-white rounded-xl font-medium hover:bg-gray-600 active:scale-95 transition-all duration-200 shadow-md"
                 >
-                    Зарегистрироваться
+                    {translations.register.button}
                 </button>
             </form>
 
             <p className="mt-6 text-center text-sm text-gray-600">
-                Уже есть аккаунт?{" "}
-                <a
+                {translations.register.text}{" "}
+                <Link to="/seller/auth/login"
                     className="cursor-pointer text-gray-800 font-medium hover:underline hover:text-gray-500 transition"
                 >
-                    Войти
-                </a>
+                    {translations.register.auth}
+                </Link>
             </p>
         </>
     );

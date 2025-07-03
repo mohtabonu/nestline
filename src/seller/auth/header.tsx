@@ -1,12 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useLanguage } from "./language-context";
+import { Link, useLocation } from "react-router-dom";
 
-type HeaderProps = {
-    buttonText: string;
-};
 
-const Header: React.FC<HeaderProps> = ({ buttonText }) => {
-    const [selected, setSelected] = useState<"RUS" | "UZB">("RUS");
+const Header: React.FC = () => {
+    const { language, setLanguage } = useLanguage()
+    const { translations } = useLanguage()
+    const location = useLocation();
+    const currentPage = location.pathname.split("/").filter(Boolean).pop();
+
 
     return (
         <header className="w-[90%] mx-auto flex items-center justify-between px-6 py-4">
@@ -21,9 +23,9 @@ const Header: React.FC<HeaderProps> = ({ buttonText }) => {
                     {["RUS", "UZB"].map((lang) => (
                         <button
                             key={lang}
-                            onClick={() => setSelected(lang as "RUS" | "UZB")}
+                            onClick={() => setLanguage(lang as "RUS" | "UZB")}
                             className={`px-3 py-1 rounded-md transition-all outline-none
-                                      ${selected === lang
+                             ${language === lang
                                     ? "bg-gray-600 text-white shadow-md"
                                     : "text-gray-600 hover:text-black focus:ring-2 focus:ring-gray-400"
                                 }`}
@@ -35,13 +37,13 @@ const Header: React.FC<HeaderProps> = ({ buttonText }) => {
 
 
                 {/* КАСТОМНЫЙ БАТТОН */}
-                <button
+                <Link to={currentPage === "register"? "/seller/auth/login" : "/seller/auth/register"}
                     className="px-4 cursor-pointer py-2 rounded-lg bg-gray-800 text-white text-md font-semibold 
                             hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400 
                             transition-all duration-200 active:scale-95 shadow-md"
                 >
-                    {buttonText}
-                </button>
+                    {currentPage === "register"? translations.register.auth : translations.login.auth}
+                </Link>
 
             </div>
         </header>
