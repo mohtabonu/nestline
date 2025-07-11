@@ -18,11 +18,12 @@ const LoginPage: React.FC = () => {
         e.preventDefault();
 
         if(phone === user.phone && password === user.password) {
-            navigate("/seller")
+            navigate("/seller/posts")  
+            console.log("Телефон:", phone);
+        console.log("Пароль:", password);
         }
 
-        console.log("Телефон:", phone);
-        console.log("Пароль:", password);
+      
     };
 
 

@@ -1,3 +1,15 @@
+// interface Ad {
+//     id: number;
+//     title: string;
+//     description: string;
+//     price: number;
+//     region: string;
+//     district: string;
+//     allowPets: boolean;
+//     isFurnished: boolean;
+//     minRentalPeriod: number;
+// }
+
 export const languages = {
     RUS: {
         login: {
@@ -29,7 +41,206 @@ export const languages = {
         navbar: {
             placeholder: "Поиск товаров...",
             add: "Добавить объявление"
-        }
+        },
+
+
+
+        ads: [
+            {
+                id: 1,
+                title: "Квартира в центре",
+                description: "Сдаётся уютная квартира возле метро. Всё рядом.",
+                price: 350,
+                region: "Ташкент",
+                district: "Мирабад",
+                allowPets: true,
+                isFurnished: true,
+                minRentalPeriod: 2,
+                img: "/img_1.jpg",
+                views: 120,
+                likes: 18,
+                category: "Квартира",
+                status: "Активно"
+            },
+            {
+                id: 2,
+                title: "Дом в Чиланзаре",
+                description: "Просторный дом с двумя этажами и садом.",
+                price: 700,
+                region: "Ташкент",
+                district: "Чиланзар",
+                allowPets: true,
+                isFurnished: false,
+                minRentalPeriod: 6,
+                img: "/img_2.jpg",
+                views: 200,
+                likes: 35,
+                category: "Дом",
+                status: "Активно"
+            },
+            {
+                id: 3,
+                title: "Комната в Юнусабаде",
+                description: "Комната в квартире, только для девушек.",
+                price: 150,
+                region: "Ташкент",
+                district: "Юнусабад",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 1,
+                img: "/img_3.jpg",
+                views: 90,
+                likes: 9,
+                category: "Комната",
+                status: "Активно"
+            },
+            {
+                id: 4,
+                title: "1-комнатная в Самарканде",
+                description: "Новая квартира в новостройке.",
+                price: 200,
+                region: "Самарканд",
+                district: "Регистан",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 3,
+                img: "/img_4.jpg",
+                views: 110,
+                likes: 12,
+                category: "Квартира",
+                status: "Активно"
+            },
+            {
+                id: 5,
+                title: "Квартира без мебели",
+                description: "Подходит для тех, кто хочет обставить по-своему.",
+                price: 250,
+                region: "Бухара",
+                district: "Когон",
+                allowPets: true,
+                isFurnished: false,
+                minRentalPeriod: 4,
+                img: "/img_5.jpg",
+                views: 80,
+                likes: 7,
+                category: "Квартира",
+                status: "Не активно"
+            },
+            {
+                id: 6,
+                title: "Элитная квартира",
+                description: "Полностью меблированная квартира в центре.",
+                price: 1000,
+                region: "Ташкент",
+                district: "Шайхантаур",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 6,
+                img: "/img_6.jpg",
+                views: 350,
+                likes: 47,
+                category: "Квартира",
+                status: "Активно"
+            },
+            {
+                id: 7,
+                title: "Дешёвая комната",
+                description: "Для студентов, рядом с университетом.",
+                price: 100,
+                region: "Ташкент",
+                district: "Яшнабад",
+                allowPets: false,
+                isFurnished: false,
+                minRentalPeriod: 1,
+                img: "/img_7.jpg",
+                views: 65,
+                likes: 5,
+                category: "Комната",
+                status: "Активно"
+            },
+            {
+                id: 8,
+                title: "Дом с бассейном",
+                description: "Частный дом с большим двором и бассейном.",
+                price: 1200,
+                region: "Ташкентская область",
+                district: "Чирчик",
+                allowPets: true,
+                isFurnished: true,
+                minRentalPeriod: 12,
+                img: "/img_8.jpg",
+                views: 430,
+                likes: 60,
+                category: "Дом",
+                status: "Активно"
+            },
+            {
+                id: 9,
+                title: "Квартира на короткий срок",
+                description: "Идеально подойдёт на время командировки.",
+                price: 400,
+                region: "Навои",
+                district: "Навбахор",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 1,
+                img: "/img_9.jpg",
+                views: 100,
+                likes: 11,
+                category: "Квартира",
+                status: "Не активно"
+            },
+            {
+                id: 10,
+                title: "Квартира с балконом",
+                description: "Уютная квартира с видом на парк.",
+                price: 300,
+                region: "Андижан",
+                district: "Асака",
+                allowPets: true,
+                isFurnished: true,
+                minRentalPeriod: 2,
+                img: "/img_10.jpg",
+                views: 150,
+                likes: 22,
+                category: "Квартира",
+                status: "Активно"
+            },
+            {
+                id: 11,
+                title: "Дом у реки",
+                description: "Спокойное место с видом на реку и лес.",
+                price: 950,
+                region: "Сурхандарья",
+                district: "Денов",
+                allowPets: true,
+                isFurnished: false,
+                minRentalPeriod: 5,
+                img: "/img_11.jpg",
+                views: 300,
+                likes: 40,
+                category: "Дом",
+                status: "Активно"
+            },
+            {
+                id: 12,
+                title: "Квартира в новостройке",
+                description: "Современная квартира в новом жилом комплексе.",
+                price: 550,
+                region: "Фергана",
+                district: "Коканд",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 3,
+                img: "/img_12.jpg",
+                views: 170,
+                likes: 25,
+                category: "Квартира",
+                status: "Активно"
+            }
+        ]
+
+
     },
     UZB: {
         login: {
@@ -61,6 +272,203 @@ export const languages = {
         navbar: {
             placeholder: "Mahsulotlarni qidirish...",
             add: "E'lon berish"
-        }
+        },
+
+        ads: [
+            {
+                id: 1,
+                title: "Markazdagi kvartira",
+                description: "Metroga yaqin qulay kvartira. Hammasi yaqin joyda.",
+                price: 350,
+                region: "Toshkent",
+                district: "Mirabad",
+                allowPets: true,
+                isFurnished: true,
+                minRentalPeriod: 2,
+                img: "/img_1.jpg",
+                views: 120,
+                likes: 18,
+                category: "Kvartira",
+                status: "Faol"
+            },
+            {
+                id: 2,
+                title: "Chilonzordagi uy",
+                description: "Ikki qavatli katta hovlili uy.",
+                price: 700,
+                region: "Toshkent",
+                district: "Chilonzor",
+                allowPets: true,
+                isFurnished: false,
+                minRentalPeriod: 6,
+                img: "/img_2.jpg",
+                views: 200,
+                likes: 35,
+                category: "Uy",
+                status: "Faol"
+            },
+            {
+                id: 3,
+                title: "Yunusobodda xona",
+                description: "Faqat qizlar uchun kvartirada xona.",
+                price: 150,
+                region: "Toshkent",
+                district: "Yunusobod",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 1,
+                img: "/img_3.jpg",
+                views: 90,
+                likes: 9,
+                category: "Xona",
+                status: "Faol"
+            },
+            {
+                id: 4,
+                title: "Samarqandda 1 xonali kvartira",
+                description: "Yangi qurilgan uydagi zamonaviy kvartira.",
+                price: 200,
+                region: "Samarqand",
+                district: "Registon",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 3,
+                img: "/img_4.jpg",
+                views: 110,
+                likes: 12,
+                category: "Kvartira",
+                status: "Faol"
+            },
+            {
+                id: 5,
+                title: "Mebelsiz kvartira",
+                description: "O‘zingizga moslab jihozlash uchun qulay variant.",
+                price: 250,
+                region: "Buxoro",
+                district: "Kogon",
+                allowPets: true,
+                isFurnished: false,
+                minRentalPeriod: 4,
+                img: "/img_5.jpg",
+                views: 80,
+                likes: 7,
+                category: "Kvartira",
+                status: "Faol emas"
+            },
+            {
+                id: 6,
+                title: "Elita kvartira",
+                description: "To‘liq mebellangan hashamatli kvartira.",
+                price: 1000,
+                region: "Toshkent",
+                district: "Shayxontohur",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 6,
+                img: "/img_6.jpg",
+                views: 350,
+                likes: 47,
+                category: "Kvartira",
+                status: "Faol"
+            },
+            {
+                id: 7,
+                title: "Talabalar uchun xona",
+                description: "Arzon xona, universitetga yaqin joyda.",
+                price: 100,
+                region: "Toshkent",
+                district: "Yashnobod",
+                allowPets: false,
+                isFurnished: false,
+                minRentalPeriod: 1,
+                img: "/img_7.jpg",
+                views: 65,
+                likes: 5,
+                category: "Xona",
+                status: "Faol"
+            },
+            {
+                id: 8,
+                title: "Hovuzi bor uy",
+                description: "Katta hovli va hovuzi bor shinam uy.",
+                price: 1200,
+                region: "Toshkent viloyati",
+                district: "Chirchiq",
+                allowPets: true,
+                isFurnished: true,
+                minRentalPeriod: 12,
+                img: "/img_8.jpg",
+                views: 430,
+                likes: 60,
+                category: "Uy",
+                status: "Faol"
+            },
+            {
+                id: 9,
+                title: "Qisqa muddatli kvartira",
+                description: "Ish safariga chiqqanlar uchun qulay tanlov.",
+                price: 400,
+                region: "Navoiy",
+                district: "Navbahor",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 1,
+                img: "/img_9.jpg",
+                views: 100,
+                likes: 11,
+                category: "Kvartira",
+                status: "Faol emas"
+            },
+            {
+                id: 10,
+                title: "Balkonli kvartira",
+                description: "Parkka qaragan balkonli shinam kvartira.",
+                price: 300,
+                region: "Andijon",
+                district: "Asaka",
+                allowPets: true,
+                isFurnished: true,
+                minRentalPeriod: 2,
+                img: "/img_10.jpg",
+                views: 150,
+                likes: 22,
+                category: "Kvartira",
+                status: "Faol"
+            },
+            {
+                id: 11,
+                title: "Daryoboyidagi uy",
+                description: "Daryo va o‘rmon manzarasi bor tinch hudud.",
+                price: 950,
+                region: "Surxondaryo",
+                district: "Denov",
+                allowPets: true,
+                isFurnished: false,
+                minRentalPeriod: 5,
+                img: "/img_11.jpg",
+                views: 300,
+                likes: 40,
+                category: "Uy",
+                status: "Faol"
+            },
+            {
+                id: 12,
+                title: "Yangi uyda zamonaviy kvartira",
+                description: "Yangi turar-joy majmuasidagi qulay kvartira.",
+                price: 550,
+                region: "Farg‘ona",
+                district: "Qo‘qon",
+                allowPets: false,
+                isFurnished: true,
+                minRentalPeriod: 3,
+                img: "/img_12.jpg",
+                views: 170,
+                likes: 25,
+                category: "Kvartira",
+                status: "Faol"
+            }
+        ]
+
+
     },
 };

@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Home,
     PlusCircle,
-    MessagesSquare,
     BarChart2,
     Settings,
     LogOut,
@@ -11,6 +10,8 @@ import { useLanguage } from "../auth/language-context";
 
 export const Sidebar = () => {
     const { translations } = useLanguage()
+    const navigate = useNavigate();
+
     return (
         <aside className="h-screen w-[100%] bg-gray-900 text-white shadow-lg flex flex-col justify-between py-4 px-2">
             <div>
@@ -32,11 +33,26 @@ export const Sidebar = () => {
 
                 {/* Навигация */}
                 <nav className="mt-4 flex flex-col space-y-2 px-4">
-                    <SidebarItem icon={<Home size={22} />} text={translations.sidebar.news} />
-                    <SidebarItem icon={<PlusCircle size={22} />} text={translations.sidebar.add} />
-                    <SidebarItem icon={<MessagesSquare size={22} />} text={translations.sidebar.message} />
-                    <SidebarItem icon={<BarChart2 size={22} />} text={translations.sidebar.chart} />
-                    <SidebarItem icon={<Settings size={22} />} text={translations.sidebar.settings} />
+                    <SidebarItem
+                        icon={<Home size={22} />}
+                        text={translations.sidebar.news}
+                        onClick={() => navigate('/seller/posts')}
+                    />
+                    <SidebarItem
+                        icon={<PlusCircle size={22} />}
+                        text={translations.sidebar.add}
+                        onClick={() => navigate('/seller/add')}
+                    />
+                    <SidebarItem
+                        icon={<BarChart2 size={22} />}
+                        text={translations.sidebar.chart}
+                        onClick={() => navigate('/seller/chart')}
+                    />
+                    <SidebarItem
+                        icon={<Settings size={22} />}
+                        text={translations.sidebar.settings}
+                        onClick={() => navigate('/seller/settings')}
+                    />
                 </nav>
             </div>
 
@@ -55,14 +71,15 @@ export const Sidebar = () => {
 interface SidebarItemProps {
     icon: React.ReactNode;
     text: string;
+    onClick?: () => void;
 }
 
-const SidebarItem = ({ icon, text }: SidebarItemProps) => (
-    <a
-        href="#"
-        className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200"
+const SidebarItem = ({ icon, text, onClick }: SidebarItemProps) => (
+    <button
+        onClick={onClick}
+        className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200 w-full text-left"
     >
         {icon}
         <span>{text}</span>
-    </a>
+    </button>
 );
