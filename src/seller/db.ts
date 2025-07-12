@@ -42,9 +42,6 @@ export const languages = {
             placeholder: "Поиск товаров...",
             add: "Добавить объявление"
         },
-
-
-
         ads: [
             {
                 id: 1,
@@ -239,8 +236,6 @@ export const languages = {
                 status: "Активно"
             }
         ]
-
-
     },
     UZB: {
         login: {
@@ -273,7 +268,6 @@ export const languages = {
             placeholder: "Mahsulotlarni qidirish...",
             add: "E'lon berish"
         },
-
         ads: [
             {
                 id: 1,
@@ -468,7 +462,5 @@ export const languages = {
                 status: "Faol"
             }
         ]
-
-
     },
 };

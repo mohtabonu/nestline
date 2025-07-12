@@ -8,6 +8,7 @@ import Posts from "./sections/posts";
 import Add from "./sections/add";
 import AnaliticPage from "./sections/analitics";
 import SellerSettingsPage from "./sections/settings";
+import PostDetail from "./sections/details";
 
 export const MyRouter = () => {
   return (
@@ -65,6 +66,28 @@ export const MyRouter = () => {
               {/* Основная часть под навбаром */}
               <main className="flex-1 p-6 bg-white overflow-auto">
                 <Posts />
+              </main>
+            </div>
+          </div>
+        } />
+
+         <Route path="/seller/posts/:id" element={
+          <div className="flex h-screen bg-gray-100 text-black">
+            {/* Sidebar */}
+            <aside className="w-64 bg-black text-white">
+              <Sidebar />
+            </aside>
+
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col">
+              {/* Navbar */}
+              <header className="shadow-md z-10">
+                <Navbar />
+              </header>
+
+              {/* Основная часть под навбаром */}
+              <main className="flex-1 p-6 bg-white overflow-auto">
+               <PostDetail />
               </main>
             </div>
           </div>
