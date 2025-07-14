@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Card,
   CardContent,
@@ -22,15 +22,17 @@ import {
   Heart,
 } from "lucide-react";
 
-import { properties } from "../db";
+import { photos, properties2, regions, user } from "../services";
 import { HomeCard } from "../components";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../context";
 
-const favoriteProperties = properties.filter((item) => Boolean(item.isFavorite));
+const favoriteProperties = properties2.filter(() => Boolean(false));
 
-export function Profile() {
+export const Profile: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
+  const { profile,methods } = useContext(AuthContext);
 
   return (
     <div className="min-h-screen bg-white">
@@ -44,13 +46,16 @@ export function Profile() {
                   <Avatar className="h-24 w-24 mb-4">
                     <AvatarImage src="/placeholder.svg?height=96&width=96" />
                     <AvatarFallback className="bg-gray-800 text-white text-2xl">
-                      AK
+                      {profile?.userName
+                        .split(" ")
+                        .map((word) => word[0].toUpperCase())
+                        .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <h2 className="text-xl font-bold text-gray-900 mb-1">
-                    Akmal Karimov
+                    {profile?.userName}
                   </h2>
-                  <p className="text-gray-600 mb-2">akmal.karimov@email.com</p>
+                  <p className="text-gray-600 mb-2">{profile?.email}</p>
                   <Badge
                     variant="secondary"
                     className="bg-gray-100 text-gray-800"
@@ -115,7 +120,7 @@ export function Profile() {
                         <label className="text-sm font-medium text-gray-700">
                           To'liq ism
                         </label>
-                        <p className="text-gray-900 mt-1">Akmal Karimov</p>
+                        <p className="text-gray-900 mt-1">{profile?.userName}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-700">
@@ -123,7 +128,7 @@ export function Profile() {
                         </label>
                         <div className="flex items-center mt-1">
                           <Phone className="h-4 w-4 text-gray-500 mr-2" />
-                          <p className="text-gray-900">+998 90 123 45 67</p>
+                          <p className="text-gray-900">{profile?.phoneNumber}</p>
                         </div>
                       </div>
                       <div>
@@ -133,7 +138,7 @@ export function Profile() {
                         <div className="flex items-center mt-1">
                           <Mail className="h-4 w-4 text-gray-500 mr-2" />
                           <p className="text-gray-900">
-                            akmal.karimov@email.com
+                            {user.email}
                           </p>
                         </div>
                       </div>
@@ -237,18 +242,36 @@ export function Profile() {
                 <CardContent>
                   {favoriteProperties.length ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {favoriteProperties.slice(0, 4).map((item) => (
-                        <HomeCard
-                          key={item.id}
-                          id={item.id}
-                          image={item.image}
-                          title={item.title}
-                          description={item.description}
-                          isFavorite={item.isFavorite}
-                          price={item.price}
-                          location={item.location}
-                        />
-                      ))}
+                      {favoriteProperties.slice(0, 4).map((property) => {
+                        // Viloyat va tuman nomi
+                        const region =
+                          regions.find((r) => r.id === property.regionId)
+                            ?.name || "Noma'lum viloyat";
+
+                        // Shu uyga tegishli rasmlar
+                        const propertyPhotos = photos
+                          .filter(
+                            (photo) => photo.propertyId === property.landlordId
+                          )
+                          .sort((a, b) => a.order - b.order);
+
+                        const mainPhoto =
+                          propertyPhotos.find((photo) => photo.isMain) ||
+                          propertyPhotos[0];
+
+                        return (
+                          <HomeCard
+                            key={property.id}
+                            id={property.id}
+                            image={mainPhoto.url}
+                            title={property.title}
+                            isFavorite={false}
+                            price={property.price}
+                            description={property.description}
+                            location={region}
+                          />
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-16">
@@ -325,13 +348,12 @@ export function Profile() {
                     <div className="space-y-4">
                       <div>
                         <h4 className="font-medium text-gray-900 mb-2">
-                          Hisobni o'chirish
+                          Hisodan chiqish
                         </h4>
                         <p className="text-sm text-gray-600 mb-4">
-                          Hisobingizni butunlay o'chirib tashlash. Bu amalni
-                          qaytarib bo'lmaydi.
-                        </p>
-                        <Button variant="destructive">Hisobni o'chirish</Button>
+                           Hisobingizdan chiqasiz, ammo istalgan vaqtda qayta kirishingiz mumkin.
+                        </p>  
+                        <Button onClick={methods.logout} variant="destructive">Hisobdan chiqish</Button>
                       </div>
                     </div>
                   </CardContent>
@@ -343,4 +365,4 @@ export function Profile() {
       </div>
     </div>
   );
-}
+};

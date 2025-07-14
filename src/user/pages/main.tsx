@@ -91,7 +91,7 @@ export const Main: React.FC = () => {
           <div
             className="relative z-0 rounded-2xl bg-cover bg-center"
             style={{
-              backgroundImage: 'url("src/assets/living.jpg")',
+              backgroundImage: 'url("/assets/living.jpg")',
               width: "1000px",
               height: "530px", 
             }}
@@ -107,7 +107,7 @@ export const Main: React.FC = () => {
             <div className="flex-1 cursor-pointer hover:opacity-80 transition-opacity">
               <div className="mb-4">
                 <img
-                  src="src/assets/home.png"
+                  src="/assets/home.png"
                   alt="Дома"
                   className="w-full h-[400px] object-cover rounded-lg"
                 />
@@ -126,7 +126,7 @@ export const Main: React.FC = () => {
             <div className="flex-1 cursor-pointer hover:opacity-80 transition-opacity">
               <div className="mb-4">
                 <img
-                  src="src/assets/dom.png"
+                  src="/assets/dom.png"
                   alt="Квартиры"
                   className="w-full h-[400px] object-cover rounded-lg"
                 />
@@ -144,7 +144,7 @@ export const Main: React.FC = () => {
             <div className="flex-1 cursor-pointer hover:opacity-80 transition-opacity">
               <div className="mb-4">
                 <img
-                  src="src/assets/room.png"
+                  src="/assets/room.png"
                   alt="Комнаты"
                   className="w-full h-[400px] object-cover rounded-lg"
                 />

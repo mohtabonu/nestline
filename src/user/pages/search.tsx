@@ -26,115 +26,13 @@ import {
 } from "@/components/ui/sheet";
 
 import { useState } from "react";
-import { properties } from "../db";
+import { districts, photos, properties2, regions } from "../services";
 import { HomeCard } from "../components";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 
-interface Region {
-  id: number;
-  name: string;
-  districts: {
-    id: number;
-    name: string;
-  }[];
-}
-const regions: Region[] = [
-  {
-    id: 1,
-    name: "Toshkent shahri",
-    districts: [
-      { id: 1, name: "Yunusobod" },
-      { id: 2, name: "Chilonzor" },
-      { id: 3, name: "Shayxontohur" },
-      { id: 4, name: "Olmazor" },
-      { id: 5, name: "Uchtepa" },
-      { id: 6, name: "Mirzo Ulug‘bek" },
-      { id: 7, name: "Yakkasaroy" },
-      { id: 8, name: "Mirobod" },
-      { id: 9, name: "Yashnobod" },
-      { id: 10, name: "Bektemir" },
-      { id: 11, name: "Sergeli" },
-      { id: 12, name: "Yangihayot" },
-    ],
-  },
-  {
-    id: 2,
-    name: "Toshkent viloyati",
-    districts: [
-      { id: 1, name: "Bekobod" },
-      { id: 2, name: "Bo‘ka" },
-      { id: 3, name: "Chinoz" },
-      { id: 4, name: "Qibray" },
-      { id: 5, name: "Ohangaron" },
-      { id: 6, name: "Parkent" },
-      { id: 7, name: "Piskent" },
-      { id: 8, name: "Quyichirchiq" },
-      { id: 9, name: "O‘rta Chirchiq" },
-      { id: 10, name: "Yangiyo‘l" },
-      { id: 11, name: "Zangiota" },
-    ],
-  },
-  {
-    id: 3,
-    name: "Andijon",
-    districts: [
-      { id: 1, name: "Andijon shahri" },
-      { id: 2, name: "Asaka" },
-      { id: 3, name: "Baliqchi" },
-      { id: 4, name: "Bo‘ston" },
-      { id: 5, name: "Buloqboshi" },
-      { id: 6, name: "Jalaquduq" },
-      { id: 7, name: "Izboskan" },
-      { id: 8, name: "Qo‘rg‘ontepa" },
-      { id: 9, name: "Marhamat" },
-      { id: 10, name: "Oltinko‘l" },
-      { id: 11, name: "Paxtaobod" },
-      { id: 12, name: "Shahrixon" },
-      { id: 13, name: "Xo‘jaobod" },
-      { id: 14, name: "Ulug‘nor" },
-    ],
-  },
-  {
-    id: 4,
-    name: "Farg‘ona",
-    districts: [
-      { id: 1, name: "Farg‘ona shahri" },
-      { id: 2, name: "Qo‘qon" },
-      { id: 3, name: "Marg‘ilon" },
-      { id: 4, name: "Buvayda" },
-      { id: 5, name: "Dang‘ara" },
-      { id: 6, name: "Furqat" },
-      { id: 7, name: "Oltiariq" },
-      { id: 8, name: "Quva" },
-      { id: 9, name: "Qo‘shtepa" },
-      { id: 10, name: "Rishton" },
-      { id: 11, name: "So‘x" },
-      { id: 12, name: "Toshloq" },
-      { id: 13, name: "Uchko‘prik" },
-      { id: 14, name: "Yozyovon" },
-    ],
-  },
-  {
-    id: 5,
-    name: "Namangan",
-    districts: [
-      { id: 1, name: "Namangan shahri" },
-      { id: 2, name: "Chortoq" },
-      { id: 3, name: "Chust" },
-      { id: 4, name: "Kosonsoy" },
-      { id: 5, name: "Mingbuloq" },
-      { id: 6, name: "Norin" },
-      { id: 7, name: "Pop" },
-      { id: 8, name: "To‘raqo‘rg‘on" },
-      { id: 9, name: "Uychi" },
-      { id: 10, name: "Uchqo‘rg‘on" },
-      { id: 11, name: "Yangiqo‘rg‘on" },
-    ],
-  },
-];
 const amenities = [
   { label: "Konditsioner" },
   { label: "Balkon" },
@@ -151,6 +49,10 @@ const rightAmenities = amenities.slice(4);
 export const Search: React.FC = () => {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   const selectedRegion = regions.find((region) => region.name === activeRegion);
+
+  const filteredDistricts = selectedRegion
+    ? districts.filter((district) => district.regionId === selectedRegion.id)
+    : [];
 
   return (
     <div className="min-h-screen container mx-auto max-w-8xl p-8">
@@ -182,7 +84,7 @@ export const Search: React.FC = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {selectedRegion?.districts.map((district) => (
+                {filteredDistricts.map((district) => (
                   <SelectItem key={district.id} value={district.name}>
                     {district.name}
                   </SelectItem>
@@ -249,7 +151,7 @@ export const Search: React.FC = () => {
                       </SelectTrigger>
                       <SelectContent className="bg-[#333D4C] text-white">
                         <SelectGroup>
-                          {selectedRegion?.districts.map((district) => (
+                          {filteredDistricts.map((district) => (
                             <SelectItem key={district.id} value={district.name}>
                               {district.name}
                             </SelectItem>
@@ -407,17 +309,33 @@ export const Search: React.FC = () => {
         <h1 className="text-gray-600">95 ta natija ko'rsatilmoqda</h1>
       </div>
       <div className="grid grid-cols-4 gap-6">
-        {properties.map((propertie) => (
-          <HomeCard
-            id={propertie.id}
-            title={propertie.title}
-            location={propertie.location}
-            price={propertie.price}
-            image={propertie.image}
-            isFavorite={propertie.isFavorite}
-            description={propertie.description}
-          />
-        ))}
+        {properties2.map((property) => {
+          // Viloyat va tuman nomi
+          const region =
+            regions.find((r) => r.id === property.regionId)?.name ||
+            "Noma'lum viloyat";
+
+          // Shu uyga tegishli rasmlar
+          const propertyPhotos = photos
+            .filter((photo) => photo.propertyId === property.landlordId)
+            .sort((a, b) => a.order - b.order);
+
+          const mainPhoto =
+            propertyPhotos.find((photo) => photo.isMain) || propertyPhotos[0];
+
+          return (
+            <HomeCard
+              key={property.id}
+              id={property.id}
+              image={mainPhoto.url}
+              title={property.title}
+              isFavorite={false}
+              price={property.price}
+              description={property.description}
+              location={region}
+            />
+          );
+        })}
       </div>
       <div className="my-6">
         <Pagination>

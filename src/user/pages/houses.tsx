@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { Search, SearchX} from "lucide-react";
-import { properties } from "../db";
+import { Search, SearchX } from "lucide-react";
+import { photos, properties2, regions } from "../services";
 import { HomeCard } from "../components";
 
 export const Houses: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredHouses = properties.filter(
-    (house) =>
-      house.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      house.location.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredHouses = properties2.filter((house) =>
+    house.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -29,23 +27,38 @@ export const Houses: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredHouses.map((property) => (
-            <HomeCard
-              id={property.id}
-              image={property.image}
-              title={property.title}
-              isFavorite={property.isFavorite}
-              price={property.price}
-              description={property.description}
-              location={property.location}
+          {filteredHouses.map((property) => {
+            // Viloyat va tuman nomi
+            const region =
+              regions.find((r) => r.id === property.regionId)?.name ||
+              "Noma'lum viloyat";
 
-            />
-          ))}
+            // Shu uyga tegishli rasmlar
+            const propertyPhotos = photos
+              .filter((photo) => photo.propertyId === property.landlordId)
+              .sort((a, b) => a.order - b.order);
+
+            const mainPhoto =
+              propertyPhotos.find((photo) => photo.isMain) || propertyPhotos[0];
+
+            return (
+              <HomeCard
+                key={property.id}
+                id={property.id}
+                image={mainPhoto.url}
+                title={property.title}
+                isFavorite={false}
+                price={property.price}
+                description={property.description}
+                location={region}
+              />
+            );
+          })}
         </div>
 
         {filteredHouses.length === 0 && (
           <div className="py-12 flex items-center justify-content-center flex-col ">
-            <SearchX className="text-gray-800 w-16 h-16 mb-2"/>
+            <SearchX className="text-gray-800 w-16 h-16 mb-2" />
             <p className="text-gray-600 text-lg">Hech qanday uy topilmadi</p>
           </div>
         )}

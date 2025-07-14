@@ -2,7 +2,7 @@ import type React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
 
-export const Header: React.FC = () => {
+export const MainHeader: React.FC = () => {
   const navigate = useNavigate()
   const language = "UZB";
   return (
@@ -11,7 +11,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           <Link to={'/'}>
             <img
-              src="src/assets/logo-Photoroom.png"
+              src="/assets/logo-Photoroom.png"
               width="200"
               alt="Logo"
               className="cursor-pointer"
