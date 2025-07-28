@@ -6,3 +6,4 @@ export { Profile } from "./profile";
 export { Home } from "./detail";
 export { Login } from "./login";
 export { Register } from "./register";
+export { VerificationPage } from "./verification";

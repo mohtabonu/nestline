@@ -6,7 +6,7 @@ export const MainHeader: React.FC = () => {
   const navigate = useNavigate()
   const language = "UZB";
   return (
-    <header className="bg-gradient-to-r from-slate-800 to-slate-900 shadow-lg">
+    <header className="bg-gray-900">
       <div className="container max-w-8xl mx-auto px-6 py-2">
         <div className="flex items-center justify-between">
           <Link to={'/'}>
@@ -20,20 +20,20 @@ export const MainHeader: React.FC = () => {
 
           <nav className="flex items-center space-x-8">
             <Link
-              to={"/houses"}
-              className="text-white hover:text-gray-400 transition-all duration-300 font-medium text-lg hover:scale-105"
+              to={"/"}
+              className="text-white hover:text-gray-400 transition-all duration-300 font-medium text-[17px] hover:scale-105"
             >
-              Uylar
+              Bosh sahifa
             </Link>
             <Link
               to={'/favourites'}
-              className="text-white hover:text-gray-400 transition-all duration-300 font-medium text-lg hover:scale-105"
+              className="text-white hover:text-gray-400 transition-all duration-300 font-medium text-[17px] hover:scale-105"
             >
               Tanlanganlar
             </Link>
             <Link
               to={'/search'}
-              className="text-white hover:text-gray-400 transition-all duration-300 font-medium text-lg hover:scale-105"
+              className="text-white hover:text-gray-400 transition-all duration-300 font-medium text-[17px] hover:scale-105"
             >
               Qidiruv
             </Link>
@@ -49,7 +49,7 @@ export const MainHeader: React.FC = () => {
                              ${
                                language === lang
                                  ? "bg-gray-600 text-white shadow-md"
-                                 : "text-gray-600 hover:text-white focus:ring-2 focus:ring-gray-400"
+                                 : "text-gray-400 hover:text-white focus:ring-2 focus:ring-gray-400"
                              }`}
                 >
                   {lang}
@@ -57,8 +57,16 @@ export const MainHeader: React.FC = () => {
               ))}
             </div>
 
-            <button className="text-white hover:text-gray-400 transition-all duration-300 cursor-pointer p-2 rounded-full hover:bg-white/10 hover:scale-110 shadow-lg" onClick={() => navigate('/profile')}>
-              <CircleUserRound size={28} />
+              <button
+                onClick={()=>navigate('/seller/auth/login')}
+                className="bg-white text-gray-900 px-5 py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg "
+              >
+                Sotuvchi
+              </button>
+
+
+            <button className="text-white hover:text-gray-400 transition-all duration-300 cursor-pointer p-1 rounded-full hover:bg-white/10 hover:scale-105 shadow-sm" onClick={() => navigate('/profile')}>
+              <CircleUserRound size={30} />
             </button>
           </div>
         </div>

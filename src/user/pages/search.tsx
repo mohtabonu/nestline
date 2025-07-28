@@ -59,7 +59,7 @@ export const Search: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Select onValueChange={setActiveRegion}>
-            <SelectTrigger className="w-[400px] flex items-center gap-2 justify-between">
+            <SelectTrigger className="w-[400px] flex items-center gap-2 justify-between text-[16px]">
               <div className="flex items-center gap-2">
                 <MapPin />
                 <SelectValue placeholder="Shahar  / Viloyat" />
@@ -68,7 +68,7 @@ export const Search: React.FC = () => {
             <SelectContent>
               <SelectGroup>
                 {regions.map((region) => (
-                  <SelectItem key={region.id} value={region.name}>
+                  <SelectItem key={region.id} value={region.name} className="text-[16px]">
                     {region.name}
                   </SelectItem>
                 ))}
@@ -76,7 +76,7 @@ export const Search: React.FC = () => {
             </SelectContent>
           </Select>
           <Select>
-            <SelectTrigger className="w-[300px] flex items-center gap-2 justify-between">
+            <SelectTrigger className="w-[300px] flex items-center gap-2 justify-between text-[16px]">
               <div className="flex items-center gap-2">
                 <MapPin />
                 <SelectValue placeholder="Tuman" />
@@ -85,7 +85,7 @@ export const Search: React.FC = () => {
             <SelectContent>
               <SelectGroup>
                 {filteredDistricts.map((district) => (
-                  <SelectItem key={district.id} value={district.name}>
+                  <SelectItem key={district.id} value={district.name} className="text-[16px]">
                     {district.name}
                   </SelectItem>
                 ))}
@@ -95,15 +95,15 @@ export const Search: React.FC = () => {
         </div>
         <div className="flex items-center gap-6">
           <Select>
-            <SelectTrigger className="w-[180px]">
-              <House />
+            <SelectTrigger className="w-[180px] text-[16px] ">
+              <House/>
               <SelectValue placeholder="Uy turi" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="all">Barchasi</SelectItem>
-                <SelectItem value="house">Kvartiralar</SelectItem>
-                <SelectItem value="apartment">Hovlilar</SelectItem>
+                <SelectItem value="all" className="text-[16px]">Barchasi</SelectItem>
+                <SelectItem value="house" className="text-[16px]">Kvartiralar</SelectItem>
+                <SelectItem value="apartment" className="text-[16px]">Hovlilar</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

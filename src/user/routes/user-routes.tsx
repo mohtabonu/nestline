@@ -10,6 +10,7 @@ import {
   Profile,
   Register,
   Search,
+  VerificationPage,
 } from "../pages";
 import { Footer } from "../components/footer";
 import { AuthContext } from "../context";
@@ -30,6 +31,7 @@ export const UserRoutes: FunctionComponent = () => {
         >
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="verification" element={<VerificationPage/>}/>
           <Route path="*" element={<Navigate to="/auth/login" />} />
         </Route>
 

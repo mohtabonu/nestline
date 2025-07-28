@@ -19,17 +19,17 @@ export const Register: React.FC = () => {
         className="absolute inset-0 bg-cover bg-center blur-sm z-0"
         style={{
           backgroundImage:
-            'url("https://images.pexels.com/photos/15236126/pexels-photo-15236126.jpeg")',
+            'url("/assets/dom.jpg")',
         }}
       ></div>
-      <div className="relative z-10 h-full container max-w-8xl mx-auto  flex flex-col ">
+      <div className="relative z-10 h-full flex flex-col bg-black/50">
         <header>
-          <div className="p-6">
+          <div className="py-6 px-20">
             <div className="flex items-center justify-between">
               <Link to={"/"}>
                 <img
                   src="/assets/logo-Photoroom.png"
-                  width="200"
+                  width="230"
                   alt="Logo"
                   className="cursor-pointer"
                 />

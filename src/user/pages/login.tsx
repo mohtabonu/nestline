@@ -1,5 +1,5 @@
 import type React from "react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 
@@ -12,7 +12,6 @@ import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 
-import { AuthContext } from "../context";
 import { user } from "../services";
 
 const loginSchema = zod.object({
@@ -26,7 +25,6 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm({ resolver: zodResolver(loginSchema) });
-  const { methods } = useContext(AuthContext);
 
   const language = "UZB";
 
@@ -35,10 +33,8 @@ export const Login: React.FC = () => {
       if (values.email !== user.email && values.password !== user.password)
         return new Error("Login or password is incorrect");
 
-      const accessToken = localStorage.getItem("fake-token");
-      const profile = user;
-
-      methods.login({ accessToken, profile });
+      navigate('/auth/verification')
+      
     } catch (error) {
       console.log("error = ", error);
     }
@@ -50,17 +46,17 @@ export const Login: React.FC = () => {
         className="absolute inset-0 bg-cover bg-center blur-sm z-0"
         style={{
           backgroundImage:
-            'url("https://images.pexels.com/photos/15236126/pexels-photo-15236126.jpeg")',
+            'url("/assets/dom.jpg")',
         }}
       ></div>
-      <div className="relative z-10 h-full container max-w-8xl mx-auto  flex flex-col ">
+      <div className="relative z-10 h-full container max-w-8xl mx-auto  flex flex-col bg-black/50">
         <header>
-          <div className="p-6">
+          <div className="pt-6 px-20">
             <div className="flex items-center justify-between">
               <Link to={"/"}>
                 <img
                   src="/assets/logo-Photoroom.png"
-                  width="200"
+                  width="230"
                   alt="Logo"
                   className="cursor-pointer"
                 />

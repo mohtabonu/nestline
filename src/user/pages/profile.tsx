@@ -167,7 +167,7 @@ export const Profile: React.FC = () => {
                           oling
                         </p>
                       </div>
-                      <button className="flex items-center px-6 py-3 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                      <button onClick={()=>navigate('/seller/auth/login')} className="flex items-center px-6 py-3 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors font-medium">
                         <Home className="w-5 h-5 mr-2" />
                         Seller paneliga o'tish
                       </button>
