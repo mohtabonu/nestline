@@ -1,10 +1,12 @@
 import React from "react";
 import { Search, Plus } from "lucide-react";
 import { useLanguage } from "../auth/language-context";
+import { useNavigate } from "react-router";
 
 const Navbar: React.FC = () => {
     const { language, setLanguage } = useLanguage()
         const { translations } = useLanguage()
+        const navigate = useNavigate()
     
  
 
@@ -41,9 +43,10 @@ const Navbar: React.FC = () => {
                     ))}
                 </div>
 
-                <button className="flex items-center gap-2 bg-white text-black hover:bg-gray-100 active:scale-95 transition-all font-medium px-4 py-2 rounded-lg shadow">
+                <button onClick={()=>navigate("/seller/add")} className="cursor-pointer flex items-center gap-2 bg-white text-black hover:bg-gray-100 active:scale-95 transition-all font-medium px-4 py-2 rounded-lg shadow">
                     <Plus className="w-4 h-4" />
                    {translations.navbar.add}
+
                 </button>
             </div>
         </nav>

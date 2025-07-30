@@ -1,52 +1,51 @@
 import React, { useState } from "react";
-import { Eye, EyeOff } from "lucide-react"; 
+import { Eye, EyeOff } from "lucide-react";
 import { useLanguage } from "./language-context";
 import { Link, useNavigate } from "react-router-dom";
-import {user} from "../server/http"
-
+import { user } from "../server/http";
 
 const LoginPage: React.FC = () => {
-    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const { translations } = useLanguage()
-    const navigate = useNavigate()
-
-
+    const { translations } = useLanguage();
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if(phone === user.phone && password === user.password) {
-            navigate("/seller/posts")  
-            console.log("Телефон:", phone);
-        console.log("Пароль:", password);
+        if (email === user.email && password === user.password) {
+            navigate("/seller/posts");
+            console.log("Email:", email);
+            console.log("Пароль:", password);
         }
-
-      
     };
-
-
 
     return (
         <>
-            < h2 className="text-3xl font-bold text-center text-gray-800 mb-8" >{translations.login.title}</h2 >
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+                {translations.login.title}
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">{translations.login.phone_label}</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                        {translations.login.email_label}
+                    </label>
                     <input
-                        type="tel"
+                        type="email"
                         required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+998901234567"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="example@gmail.com"
                         className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-gray-500 focus:border-gray-500 outline-none transition-all duration-200 hover:border-gray-400"
                     />
                 </div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">{translations.login.password_label}</label>
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                    {translations.login.password_label}
+                </label>
                 <div className="relative">
                     <input
-                    required
+                        required
                         type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -69,13 +68,13 @@ const LoginPage: React.FC = () => {
             </form>
             <p className="mt-6 text-center text-sm text-gray-600">
                 {translations.login.text}{" "}
-                <Link to="/seller/auth/register"
+                <Link
+                    to="/seller/auth/register"
                     className="cursor-pointer text-gray-800 font-medium hover:underline hover:text-gray-600 transition"
                 >
                     {translations.login.auth}
                 </Link>
             </p>
-
         </>
     );
 };

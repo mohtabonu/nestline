@@ -13,22 +13,26 @@
 export const languages = {
     RUS: {
         login: {
-            auth: "Зарегистрироваться",
-            title: "Вход в аккаунт",
-            phone_label: "Номер телефона",
+            title: "Вход",
+            email_label: "Электронная почта",
             password_label: "Пароль",
             button: "Войти",
             text: "Нет аккаунта?",
+            auth: "Зарегистрироваться"
         },
         register: {
             auth: "Войти",
             title: "Регистрация",
             name_label: "Имя",
             phone_label: "Номер телефона",
-            passport_label: "Серия паспорта",
+            email_label: "Электронная почта",
             password_label: "Пароль",
             button: "Зарегистрироваться",
             text: "Уже есть аккаунт?",
+        },
+        verification: {
+            title: "Подтверждение Email",
+            button: "Подтвердить"
         },
         sidebar: {
             news: "Мои объявления",
@@ -235,13 +239,41 @@ export const languages = {
                 category: "Квартира",
                 status: "Активно"
             }
-        ]
+        ],
+        postDetails: {
+            not_found: "Объявление не найдено",
+            back_to_list: "Назад к объявлениям",
+            description: "Описание",
+            details_title: "Детали объявления",
+            location: "Местоположение",
+            category: "Категория",
+            furnished: "С мебелью",
+            unfurnished: "Без мебели",
+            allow_pets: "Можно с животными",
+            no_pets: "Без животных",
+            min_period: "Мин. срок",
+            edit: "Изменить",
+            delete: "Удалить",
+            confirm_delete: "Удалить это объявление?",
+            yes: "Да",
+            no: "Нет",
+            owner: "Владелец",
+            views: "просмотров",
+            publication_date: "Дата публикации",
+            ad_id: "ID объявления",
+            views_today: "Просмотры сегодня",
+            info: "Дополнительная информация",
+            month: "месяц",
+            cancel: "Отмена",
+            save: "Сохранить"
+        },
+
     },
     UZB: {
         login: {
             auth: "Ro'yxatdan o'tish",
             title: "Hisobga kirish",
-            phone_label: "Telefon raqami",
+            email_label: "Email",
             password_label: "Parol",
             button: "Kirish",
             text: "Ro'yxatdan o'tmaganmisiz?",
@@ -251,10 +283,14 @@ export const languages = {
             title: "Ro'yxatdan o'tish",
             name_label: "Ism",
             phone_label: "Telefon raqami",
-            passport_label: "Pasport seriyasi",
+            email_label: "Email",
             password_label: "Parol",
             button: "Ro'yxatdan o'tish",
             text: "Avval ro'yxatdan o'tganmisiz?",
+        },
+        verification: {
+            title: "Email'ni tasdiqlash",
+            button: "Tasdiqlash"
         },
         sidebar: {
             news: "E'lonlarim",
@@ -461,6 +497,35 @@ export const languages = {
                 category: "Kvartira",
                 status: "Faol"
             }
-        ]
+        ],
+        postDetails: {
+            not_found: "E'lon topilmadi",
+            back_to_list: "E'lоnlаr ro'yxatiga qaytish",
+            description: "Tavsif",
+            details_title: "E'lon tafsilotlari",
+            location: "Manzil",
+            category: "Kategoriya",
+            furnished: "Jihozlangan",
+            unfurnished: "Jihozlanmagan",
+            allow_pets: "Hayvonlarga ruxsat etiladi",
+            no_pets: "Hayvonlarsiz",
+            min_period: "Minimal muddat",
+            edit: "Tahrirlash",
+            delete: "O'chirish",
+            confirm_delete: "Bu e'lоnni o'chirishni xohlaysizmi?",
+            yes: "Ha",
+            no: "Yo'q",
+            owner: "Egasі",
+            views: "ko‘rishlar",
+            publication_date: "E'lon qilingan sana",
+            ad_id: "E'lon ID raqami",
+            views_today: "Bugungi ko‘rishlar",
+            info: "Qo‘shimcha ma’lumot",
+            month: "oy",
+            cancel: "Bekor qilish",
+            save: "Saqlash"
+        }
+
+
     },
 };

@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useLanguage } from "./language-context";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const [passport, setPassport] = useState("");
+    const [email, setEmail] = useState(""); // заменено с passport на email
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const { translations } = useLanguage()
+    const { translations } = useLanguage();
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!name || !phone || !passport || !password) {
+        if (!name || !phone || !email || !password) {
             alert("Пожалуйста, заполните все поля");
             return;
         }
 
+        navigate("/seller/auth/verification")
+
         console.log("Имя:", name);
         console.log("Телефон:", phone);
-        console.log("Паспорт:", passport);
+        console.log("Email:", email);
         console.log("Пароль:", password);
     };
 
@@ -52,13 +55,13 @@ const RegisterPage: React.FC = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">{translations.register.passport_label}</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">{translations.register.email_label}</label>
                     <input
-                        type="text"
-                        value={passport}
-                        onChange={(e) => setPassport(e.target.value)}
-                        placeholder="AA1234567"
-                        className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-gray-500 focus:border-gray-500 outline-none transition-all duration-200 hover:border-gray-400 uppercase"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="example@gmail.com"
+                        className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-gray-500 focus:border-gray-500 outline-none transition-all duration-200 hover:border-gray-400"
                     />
                 </div>
 

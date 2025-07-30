@@ -1,4 +1,5 @@
 export const user = {
-   phone : "+998991234567",
+    email : "shanu@gmail.com",
     password : "root123",
+    verification : 1234,
 }

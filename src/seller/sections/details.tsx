@@ -1,7 +1,6 @@
 import { useState } from "react"
 import {
   MapPin,
-  Heart,
   Eye,
   BadgeCheck,
   Sofa,
@@ -22,9 +21,10 @@ export default function PostDetail() {
   const { translations } = useLanguage();
 const isEditing = false;
   const ad = translations.ads.find((ad) => ad.id === Number(id));
+  const post = translations.postDetails
 
   if (!ad) {
-    return <div className="text-center text-red-500 text-lg">Объявление не найдено</div>;
+    return <div className="text-center text-red-500 text-lg">{post.not_found}</div>;
   }
 
 
@@ -40,13 +40,13 @@ const isEditing = false;
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center space-y-4">
-          <div className="text-gray-500 text-lg">Объявление не найдено</div>
+          <div className="text-gray-500 text-lg">{post.not_found}</div>
           <button
             onClick={() => window.history.back()}
             className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Вернуться назад
+            {post.back_to_list}
           </button>
         </div>
       </div>
@@ -63,7 +63,7 @@ const isEditing = false;
             className="inline-flex items-center px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Назад к объявлениям
+            {post.back_to_list}
           </button>
         </div>
 
@@ -89,13 +89,13 @@ const isEditing = false;
                         // onClick={handleEdit}
                         className="px-3 py-1 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-md shadow-md hover:shadow-lg transition-all duration-200 backdrop-blur-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                       >
-                        Сохранить
+                        {post.save}
                       </button>
                       <button
                         // onClick={cancelEdit}
                         className="px-3 py-1 bg-gray-600/90 hover:bg-gray-700 text-white rounded-md shadow-md hover:shadow-lg transition-all duration-200 backdrop-blur-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                       >
-                        Отмена
+                        {post.cancel}
                       </button>
                     </div>
                   ) : (
@@ -105,7 +105,7 @@ const isEditing = false;
                         className="inline-flex items-center px-3 py-1 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-md shadow-md hover:shadow-lg transition-all duration-200 backdrop-blur-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                       >
                         <Edit className="w-4 h-4 mr-1" />
-                        Изменить
+                        {post.edit}
                       </button>
 
                       {!showDeleteConfirm ? (
@@ -114,7 +114,7 @@ const isEditing = false;
                           className="inline-flex items-center px-3 py-1 bg-gray-800/90 hover:bg-gray-900 text-white rounded-md shadow-md hover:shadow-lg transition-all duration-200 backdrop-blur-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                         >
                           <Trash2 className="w-4 h-4 mr-1" />
-                          Удалить
+                          {post.delete}
                         </button>
                       ) : (
                         <div className="flex gap-1">
@@ -122,13 +122,13 @@ const isEditing = false;
                             onClick={handleDelete}
                             className="px-3 py-1 bg-gray-900 hover:bg-black text-white rounded-md shadow-md hover:shadow-lg transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                           >
-                            Да
+                            {post.yes}
                           </button>
                           <button
                             onClick={() => setShowDeleteConfirm(false)}
                             className="px-3 py-1 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-md shadow-md hover:shadow-lg transition-all duration-200 backdrop-blur-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                           >
-                            Нет
+                            {post.no}
                           </button>
                         </div>
                       )}
@@ -165,7 +165,7 @@ const isEditing = false;
                           // onChange={(e) => setEditForm({ ...editForm, price: Number(e.target.value) })}
                           className="text-3xl font-bold text-gray-900 bg-gray-50 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors duration-200 w-40"
                         />
-                        <span className="text-lg font-normal text-gray-600">/ месяц</span>
+                        <span className="text-lg font-normal text-gray-600">/ {post.month}</span>
                       </div>
                     </div>
                   ) : (
@@ -173,7 +173,7 @@ const isEditing = false;
                       <h1 className="text-3xl font-bold text-gray-900 leading-tight">{ad.title}</h1>
                       <div className="text-4xl font-bold text-gray-900">
                         ${ad.price.toLocaleString()}
-                        <span className="text-lg font-normal text-gray-600 ml-2">/ месяц</span>
+                        <span className="text-lg font-normal text-gray-600 ml-2">/ {post.month}</span>
                       </div>
                     </>
                   )}
@@ -183,7 +183,7 @@ const isEditing = false;
 
                 {/* Description */}
                 <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-900">Описание</h3>
+                  <h3 className="text-lg font-semibold text-gray-900"> {post.description}</h3>
                   {/* {isEditing ? (
                     <textarea
                       // value={editForm.description}
@@ -200,7 +200,7 @@ const isEditing = false;
 
                 {/* Property Details */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Детали объявления</h3>
+                  <h3 className="text-lg font-semibold text-gray-900"> {post.details_title}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
                       <MapPin className="w-5 h-5 text-gray-600" />
@@ -216,17 +216,17 @@ const isEditing = false;
 
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
                       <Sofa className="w-5 h-5 text-gray-600" />
-                      <span className="text-gray-700">{ad.isFurnished ? "С мебелью" : "Без мебели"}</span>
+                      <span className="text-gray-700">{ad.isFurnished ?  post.furnished : post.unfurnished}</span>
                     </div>
 
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
                       <PawPrint className="w-5 h-5 text-gray-600" />
-                      <span className="text-gray-700">{ad.allowPets ? "Можно с животными" : "Без животных"}</span>
+                      <span className="text-gray-700">{ad.allowPets ? post.allow_pets : post.no_pets}</span>
                     </div>
 
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
                       <Clock className="w-5 h-5 text-gray-600" />
-                      <span className="text-gray-700">Мин. срок: {ad.minRentalPeriod} мес.</span>
+                      <span className="text-gray-700"> {post.min_period}: {ad.minRentalPeriod} {post.month}</span>
                     </div>
                   </div>
                 </div>
@@ -238,15 +238,9 @@ const isEditing = false;
                   <div className="flex items-center gap-6 text-sm text-gray-600">
                     <div className="flex items-center gap-2">
                       <Eye className="w-4 h-4" />
-                      <span>{ad.views.toLocaleString()} просмотров</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Heart className={`w-4 h-4 `} />
-                      <span>{ad.likes.toLocaleString()} лайков</span>
+                      <span>{ad.views.toLocaleString()}  {post.views}</span>
                     </div>
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -265,7 +259,7 @@ const isEditing = false;
                   />
                   <div>
                     <div className="font-medium text-gray-900">Username</div>
-                    <div className="text-sm text-gray-600">Владелец</div>
+                    <div className="text-sm text-gray-600"> {post.owner}</div>
                   </div>
                 </div>
               </div>
@@ -274,24 +268,18 @@ const isEditing = false;
             {/* Additional Info */}
             <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="p-6 space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Дополнительная информация</h3>
+                <h3 className="text-lg font-semibold text-gray-900">{post.info}</h3>
 
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Дата публикации:</span>
+                    <span className="text-gray-600"> {post.publication_date}:</span>
                     <span className="text-gray-900 font-medium">
                       15.01.2024
                       {/* {new Date(ad.publishedDate).toLocaleDateString("ru-RU")} */}
                     </span>
                   </div>
-
                   <div className="flex justify-between">
-                    <span className="text-gray-600">ID объявления:</span>
-                    <span className="text-gray-900 font-medium">#{ad.id}</span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Просмотры сегодня:</span>
+                    <span className="text-gray-600"> {post.views_today}:</span>
                     <span className="text-gray-900 font-medium">47</span>
                   </div>
                 </div>
