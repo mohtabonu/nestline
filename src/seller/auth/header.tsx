@@ -13,7 +13,7 @@ const Header: React.FC = () => {
     return (
         <header className="w-[90%] mx-auto flex items-center justify-between px-6 py-4">
             {/* ЛОГО */}
-            <a href="/index.html">
+            <a href="/">
                 <img src="/logo.jpg" width="250px" alt="" /></a>
 
             {/* ПРАВАЯ ЧАСТЬ */}
