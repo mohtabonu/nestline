@@ -9,11 +9,11 @@ export interface AuthState {
 	isAuthenticated: boolean;
 	isLoading: boolean;
 	accessToken: string | null;
-	profile: User | null;
+	user: User | null;
 }
 
 interface AuthMethods {
-	login(data: Pick<IAuthContext, 'accessToken' | 'profile'>): void;
+	login(data: Pick<IAuthContext, 'accessToken' | 'user'>): void;
 	logout(): void;
 }
 

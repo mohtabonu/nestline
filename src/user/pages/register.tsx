@@ -1,25 +1,66 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, User, Phone, Mail, Lock } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import * as z from "zod";
+import { useRegister } from "../hooks";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import toast from "react-hot-toast";
+
+const formSchema = z.object({
+  userName: z.string().min(1, "username is required").max(50),
+  phoneNumber: z.string().min(1, "phone number is ruquired"),
+  email: z.email(),
+  password: z.string().min(1, "password is required"),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export const Register: React.FC = () => {
   const navigate = useNavigate();
+  const createUser = useRegister();
+
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const language = "UZB";
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      userName: "",
+      phoneNumber: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    createUser.mutate(data, {
+      onSuccess: () => {
+        toast.success('Ro‘yxatdan muvaffaqiyatli o\'tildi!')
+
+
+        localStorage.setItem("registerEmail", data.email);
+        navigate('/auth/verification')
+        form.reset();
+      },
+      onError: (error) => {
+      toast.error(error?.message || "Xatolik yuz berdi");
+    },
+    });
+    form.reset();
+  };
 
   return (
     <div className="relative h-screen">
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm z-0"
         style={{
-          backgroundImage:
-            'url("/assets/dom.jpg")',
+          backgroundImage: 'url("/assets/dom.jpg")',
         }}
       ></div>
       <div className="relative z-10 h-full flex flex-col bg-black/50">
@@ -74,108 +115,132 @@ export const Register: React.FC = () => {
             </CardHeader>
 
             <CardContent>
-              <form onSubmit={() => setIsLoading(true)} className="space-y-4">
-                {/* Username */}
-                <div className="space-y-2">
-                  <Label className="text-gray-800 font-medium">
-                    Foydalanuvchi ismi
-                  </Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
-                    <Input
-                      id="username"
-                      type="text"
-                      placeholder="ismingiz"
-                      className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
-                    />
-                  </div>
-                  {/* {errors.username && (
-                  <p className="text-sm text-red-600">
-                    {errors.username.message}
-                  </p>
-                )} */}
-                </div>
-
-                {/* Phone */}
-                <div className="space-y-2">
-                  <Label className="text-gray-800 font-medium">
-                    Telefon raqami
-                  </Label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="+998 90 123 45 67"
-                      className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
-                      // {...register("phone")}
-                    />
-                  </div>
-                  {/* {errors.phone && (
-                  <p className="text-sm text-red-600">{errors.phone.message}</p>
-                )} */}
-                </div>
-
-                {/* Email */}
-                <div className="space-y-2">
-                  <Label className="text-gray-800 font-medium">
-                    Email manzil
-                  </Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="example@email.com"
-                      className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
-                      // {...register("email")}
-                    />
-                  </div>
-                  {/* {errors.email && (
-                  <p className="text-sm text-red-600">{errors.email.message}</p>
-                )} */}
-                </div>
-
-                {/* Password */}
-                <div className="space-y-2">
-                  <Label className="text-gray-800 font-medium">Parol</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="parol kiriting"
-                      className="pl-10 pr-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
-                      // {...register("password")}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </button>
-                  </div>
-                  {/* {errors.password && (
-                  <p className="text-sm text-red-600">
-                    {errors.password.message}
-                  </p>
-                )} */}
-                </div>
-
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition-colors"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
                 >
-                  {isLoading ? "Ro'yxatdan o'tmoqda..." : "Ro'yxatdan o'tish"}
-                </Button>
-              </form>
+                  {/* Username */}
+                  <FormField
+                    control={form.control}
+                    name="userName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-800 font-medium">
+                          Foydalanuvchi ismi
+                        </FormLabel>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="ismingiz"
+                              className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Phone */}
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-800 font-medium">
+                          Telefon raqami
+                        </FormLabel>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
+                          <FormControl>
+                            <Input
+                              type="tel"
+                              placeholder="+998 90 123 45 67"
+                              className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Email */}
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-800 font-medium">
+                          Email manzil
+                        </FormLabel>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="example@email.com"
+                              className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Password */}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-800 font-medium">
+                          Parol
+                        </FormLabel>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
+                          <FormControl>
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="parol kiriting"
+                              className="pl-10 pr-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
+                              {...field}
+                            />
+                          </FormControl>
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </button>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    disabled={createUser.isPending}
+                    className="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                  >
+                    {createUser.isPending ? "Ro'yxatdan o'tmoqda..." : "Ro'yxatdan o'tish"}
+                  </Button>
+                </form>
+              </Form>
 
               {/* Login Link */}
               <div className="mt-6 text-center">

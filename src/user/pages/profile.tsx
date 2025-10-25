@@ -22,7 +22,7 @@ import {
   Heart,
 } from "lucide-react";
 
-import { photos, properties2, regions, user } from "../services";
+import { photos, properties2, regions } from "../services";
 import { HomeCard } from "../components";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../context";
@@ -32,7 +32,8 @@ const favoriteProperties = properties2.filter(() => Boolean(false));
 export const Profile: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
-  const { profile,methods } = useContext(AuthContext);
+  const { user,methods } = useContext(AuthContext);
+  console.log(user)
 
   return (
     <div className="min-h-screen bg-white">
@@ -46,16 +47,16 @@ export const Profile: React.FC = () => {
                   <Avatar className="h-24 w-24 mb-4">
                     <AvatarImage src="/placeholder.svg?height=96&width=96" />
                     <AvatarFallback className="bg-gray-800 text-white text-2xl">
-                      {profile?.userName
+                      {user?.userName
                         .split(" ")
                         .map((word) => word[0].toUpperCase())
                         .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <h2 className="text-xl font-bold text-gray-900 mb-1">
-                    {profile?.userName}
+                    {user?.userName}
                   </h2>
-                  <p className="text-gray-600 mb-2">{profile?.email}</p>
+                  <p className="text-gray-600 mb-2">{user?.email}</p>
                   <Badge
                     variant="secondary"
                     className="bg-gray-100 text-gray-800"
@@ -120,7 +121,7 @@ export const Profile: React.FC = () => {
                         <label className="text-sm font-medium text-gray-700">
                           To'liq ism
                         </label>
-                        <p className="text-gray-900 mt-1">{profile?.userName}</p>
+                        <p className="text-gray-900 mt-1">{user?.userName}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-700">
@@ -128,7 +129,7 @@ export const Profile: React.FC = () => {
                         </label>
                         <div className="flex items-center mt-1">
                           <Phone className="h-4 w-4 text-gray-500 mr-2" />
-                          <p className="text-gray-900">{profile?.phoneNumber}</p>
+                          <p className="text-gray-900">{user?.phoneNumber}</p>
                         </div>
                       </div>
                       <div>
@@ -138,7 +139,7 @@ export const Profile: React.FC = () => {
                         <div className="flex items-center mt-1">
                           <Mail className="h-4 w-4 text-gray-500 mr-2" />
                           <p className="text-gray-900">
-                            {user.email}
+                            {user?.email}
                           </p>
                         </div>
                       </div>

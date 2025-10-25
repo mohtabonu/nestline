@@ -1,51 +1,74 @@
 import React from "react";
 import { AuthContext, type AuthState } from "./auth-context";
+import { http } from "../services/http";
 import { user } from "../services";
-
-
 
 interface ProviderProps {
   children?: React.ReactNode;
 }
 
 export const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
-  const [state, setState] = React.useState<AuthState>(() => ({
-    isAuthenticated: false,
-    isLoading: localStorage.getItem("fake-token") ? true : false,
-    accessToken: localStorage.getItem("fake-token"),
-    profile: null,
-  }));
+  const [state, setState] = React.useState<AuthState>(() => {
+    const savedToken = localStorage.getItem("accessToken");
+    return {
+      isAuthenticated: !!savedToken,
+      isLoading: !!savedToken,
+      accessToken: savedToken,
+      user: null,
+    };
+  });
 
   const login = ({
     accessToken,
-    profile,
-  }: Pick<AuthState, "accessToken" | "profile">) => {
-    localStorage.setItem("fake-token", "12345678");
+    user,
+  }: Pick<AuthState, "accessToken" | "user">) => {
+    localStorage.setItem("accessToken", accessToken ?? "");
     setState({
-      isAuthenticated: accessToken ? true : false,
+      isAuthenticated: !!accessToken,
       isLoading: false,
       accessToken,
-      profile,
+      user,
     });
-    
-
   };
 
   const logout = () => {
-    localStorage.removeItem("fake-token");
+    localStorage.removeItem("accessToken");
     setState({
       isAuthenticated: false,
       isLoading: false,
       accessToken: null,
-      profile: null,
+      user: null,
     });
   };
 
   React.useEffect(() => {
-    const { accessToken } = state;
-    if (accessToken) {
-      login({ accessToken, profile: user });
-    }
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+    let canceled: boolean = false;
+
+    http
+      .get("/authentication/Get-User-Auth", {
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 5000,
+      })
+      .then(({ data }) => {
+        if (canceled) return;
+        console.log("Get-User-Auth response:", data);
+
+        const serverUser = data?.result ?? user;
+        login({ accessToken: token, user: serverUser });
+      })
+      .catch((err) => {
+        if (canceled) return;
+        console.warn("Backend auth failed — using fake user. Error:", err);
+
+        login({ accessToken: token, user: user });
+      });
+
+    return () => {
+      canceled = true;
+    };
+    
   }, []);
 
   return (
@@ -54,4 +77,3 @@ export const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-

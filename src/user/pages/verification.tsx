@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import { user } from "../services";
-import { AuthContext } from "../context";
-
-const correctCode = "123456";
+import { useVerifyOtp } from "../hooks";
+import toast from "react-hot-toast";
 
 const VerificationSchema = zod.object({
   code: zod
@@ -27,20 +25,19 @@ type VerificationForm = zod.infer<typeof VerificationSchema>;
 
 export const VerificationPage: React.FC = () => {
   const navigate = useNavigate();
-  const { methods } = useContext(AuthContext);
   const form = useForm<VerificationForm>({
     resolver: zodResolver(VerificationSchema),
   });
 
   const language = "UZB";
 
- 
   const CODE_LENGTH = 6;
   const [codeDigits, setCodeDigits] = useState(Array(CODE_LENGTH).fill(""));
   const inputsRef = useRef<HTMLInputElement[]>([]);
+  const verifyOtp = useVerifyOtp();
 
   const handleChange = (index: number, value: string) => {
-    if (!/^\d?$/.test(value)) return; 
+    if (!/^\d?$/.test(value)) return;
 
     const updatedDigits = [...codeDigits];
     updatedDigits[index] = value;
@@ -53,17 +50,22 @@ export const VerificationPage: React.FC = () => {
 
   const onSubmit = () => {
     const enteredCode = codeDigits.join("");
-   
+    const email = localStorage.getItem("registerEmail");
+
     form.setValue("code", enteredCode);
 
-    if (enteredCode === correctCode) {
-      const accessToken = localStorage.getItem("fake-token");
-      const profile = user;
-
-      methods.login({ accessToken, profile });
-    } else {
-      alert("Kod noto‘g‘ri");
-    }
+    verifyOtp.mutate({ email: email ?? "", code: enteredCode },
+      {
+        onSuccess: () => {
+          toast.success("Muvaffaqiyatli tasdiqlandi!");
+          localStorage.removeItem("registerEmail");
+          navigate("/auth/login");
+        },
+        onError: (error) => {
+          toast.error(error?.message || "Tasdiqlashda xatolik");
+        },
+      }
+    );
   };
 
   return (
@@ -139,9 +141,7 @@ export const VerificationPage: React.FC = () => {
                         type="text"
                         maxLength={1}
                         value={codeDigits[index]}
-                        onChange={(e) =>
-                          handleChange(index, e.target.value)
-                        }
+                        onChange={(e) => handleChange(index, e.target.value)}
                         ref={(el) => {
                           if (el) inputsRef.current[index] = el;
                         }}

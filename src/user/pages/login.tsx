@@ -6,13 +6,21 @@ import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 
-import { user } from "../services";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useLogin } from "../hooks";
+import toast from "react-hot-toast";
 
 const loginSchema = zod.object({
   email: zod.string().min(1, "Phone number is required"),
@@ -24,20 +32,27 @@ type LoginForm = zod.infer<typeof loginSchema>;
 export const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const form = useForm({ resolver: zodResolver(loginSchema) });
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const loginUser = useLogin();
 
   const language = "UZB";
 
-  const onSubmit = (values: LoginForm) => {
-    try {
-      if (values.email !== user.email && values.password !== user.password)
-        return new Error("Login or password is incorrect");
-
-      navigate('/auth/verification')
-      
-    } catch (error) {
-      console.log("error = ", error);
-    }
+  const onSubmit = (data: LoginForm) => {
+    loginUser.mutate(data, {
+      onSuccess: () => {
+        toast.success("Hisobga muvafaqiyatli kirildi!");
+        form.reset();
+      },
+      onError(error) {
+        toast.error(error?.message || "Email yoki parol xato");
+      },
+    });
   };
 
   return (
@@ -45,11 +60,10 @@ export const Login: React.FC = () => {
       <div
         className="absolute inset-0 bg-cover bg-center blur-sm z-0"
         style={{
-          backgroundImage:
-            'url("/assets/dom.jpg")',
+          backgroundImage: 'url("/assets/dom.jpg")',
         }}
       ></div>
-      <div className="relative z-10 h-full container max-w-8xl mx-auto  flex flex-col bg-black/50">
+      <div className="relative z-10 h-full max-w-8xl mx-auto  flex flex-col bg-black/50">
         <header>
           <div className="pt-6 px-20">
             <div className="flex items-center justify-between">
@@ -90,7 +104,7 @@ export const Login: React.FC = () => {
             </div>
           </div>
         </header>
-        <div className="flex-grow flex items-center justify-center px-4">
+        <div className="flex-grow flex items-center justify-center">
           <Card className="w-full max-w-sm bg-white ">
             <CardHeader className="text-center space-y-4">
               <div>
@@ -101,80 +115,92 @@ export const Login: React.FC = () => {
             </CardHeader>
 
             <CardContent>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
-              >
-                {/* Email */}
-                <div className="space-y-2">
-                  <Label className="text-gray-800 font-medium">
-                    Email manzil
-                  </Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="example@email.com"
-                      className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
-                      {...form.register("email")}
-                    />
-                  </div>
-                  {/* {errors.email && (
-                  <p className="text-sm text-red-600">{errors.email.message}</p>
-                )} */}
-                </div>
-
-                {/* Password */}
-                <div className="space-y-2">
-                  <Label className="text-gray-800 font-medium">Parol</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="parol kiriting"
-                      className="pl-10 pr-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
-                      {...form.register("password")}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </button>
-                  </div>
-                  {/* {errors.password && (
-                  <p className="text-sm text-red-600">
-                    {errors.password.message}
-                  </p>
-                )} */}
-                </div>
-
-                {/* Submit Button */}
-                <Button
-                  disabled={form.formState.isSubmitting}
-                  type="submit"
-                  className="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition-colors"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
                 >
-                  Kirish
-                </Button>
-              </form>
+                  {/* Email */}
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-800 font-medium">
+                          Email manzil
+                        </FormLabel>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="example@email.com"
+                              className="pl-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              {/* Login Link */}
+                  {/* Password */}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-800 font-medium">
+                          Parol
+                        </FormLabel>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
+                          <FormControl>
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="parol kiriting"
+                              className="pl-10 pr-10 border-gray-800 focus:border-gray-900 focus:ring-gray-900"
+                              {...field}
+                            />
+                          </FormControl>
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </button>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    disabled={form.formState.isSubmitting}
+                    className="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                  >
+                    Kirish
+                  </Button>
+                </form>
+              </Form>
+
+              {/* Register Link */}
               <div className="mt-6 text-center">
                 <p className="text-gray-600">
-                  Hisobingiz yoqmi?{" "}
+                  Hisobingiz yo‘qmi?{" "}
                   <Link
                     to="/auth/register"
                     className="text-gray-800 hover:text-gray-900 font-medium underline"
                   >
-                    Ro'yhatdan o'tish
+                    Ro'yxatdan o'tish
                   </Link>
                 </p>
               </div>

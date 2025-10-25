@@ -1,8 +1,14 @@
 export interface User {
-  email: string;
-  password: string;
   userName: string;
   phoneNumber: string;
-  isAdminSite: boolean;
+  email: string;
+  password: string;
+  latitude?: number;
+  longitude?: number;
 }
 
+
+export type VerifyPayload = {
+  email: string;
+  code: string;
+};
